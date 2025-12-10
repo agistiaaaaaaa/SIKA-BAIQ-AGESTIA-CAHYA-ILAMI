@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Sika' }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.1.4/css/sb-admin-2.min.css" rel="stylesheet" />
     <style>
         :root {
             --pri: #0f766e; /* teal-700 */
@@ -44,8 +46,24 @@
         <nav>
             <a href="{{ url('/') }}">Beranda</a>
             <a href="{{ route('mahasiswa.index') }}">Mahasiswa</a>
-            <a href="{{ route('mahasiswa.create') }}" class="btn" style="margin-left:6px;">Tambah</a>
+            @auth
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('mahasiswa.create') }}" class="btn" style="margin-left:6px;">Tambah</a>
+                @endif
+            @endauth
         </nav>
+        <div>
+            @auth
+                <span style="margin-right:10px;">{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
+                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button class="btn secondary" type="submit">Logout</button>
+                </form>
+            @else
+                <a class="btn secondary" href="{{ route('login') }}">Login</a>
+                <a class="btn" style="margin-left:6px;" href="{{ route('register') }}">Register</a>
+            @endauth
+        </div>
     </div>
 </header>
 
@@ -57,5 +75,8 @@
     @endif
     {{ $slot }}
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.1.4/js/sb-admin-2.min.js"></script>
 </body>
 </html>

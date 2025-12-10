@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Storage;
 
 class MahasiswaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin')->except(['index', 'show']);
+    }
+
     public function index()
     {
         $mahasiswas = Mahasiswa::latest()->paginate(10);

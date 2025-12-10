@@ -1,5 +1,9 @@
 <x-layouts.app :title="'Daftar Mahasiswa'">
-    <a href="{{ route('mahasiswa.create') }}" class="btn">Tambah Mahasiswa</a>
+    @auth
+        @if(auth()->user()->role === 'admin')
+            <a href="{{ route('mahasiswa.create') }}" class="btn">Tambah Mahasiswa</a>
+        @endif
+    @endauth
     <table>
         <thead>
             <tr>
@@ -25,12 +29,16 @@
                 </td>
                 <td class="table-actions">
                     <a href="{{ route('mahasiswa.show', $m) }}" class="btn secondary">Detail</a>
-                    <a href="{{ route('mahasiswa.edit', $m) }}" class="btn">Edit</a>
-                    <form action="{{ route('mahasiswa.destroy', $m) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn" onclick="return confirm('Hapus data ini?')">Hapus</button>
-                    </form>
+                    @auth
+                        @if(auth()->user()->role === 'admin')
+                            <a href="{{ route('mahasiswa.edit', $m) }}" class="btn">Edit</a>
+                            <form action="{{ route('mahasiswa.destroy', $m) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn" onclick="return confirm('Hapus data ini?')">Hapus</button>
+                            </form>
+                        @endif
+                    @endauth
                 </td>
             </tr>
         @empty
