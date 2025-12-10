@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class MahasiswaController extends Controller
 {
-    public function __construct()
+
+    private function ensureAdmin(): void
     {
-        $this->middleware('auth');
-        $this->middleware('role:admin')->except(['index', 'show']);
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized');
+        }
     }
 
     public function index()
@@ -22,11 +25,13 @@ class MahasiswaController extends Controller
 
     public function create()
     {
+        $this->ensureAdmin();
         return view('mahasiswa.create');
     }
 
     public function store(Request $request)
     {
+        $this->ensureAdmin();
         $validated = $request->validate([
             'nim' => 'required|string|max:50|unique:mahasiswas,nim',
             'nama' => 'required|string|max:255',
@@ -51,11 +56,13 @@ class MahasiswaController extends Controller
 
     public function edit(Mahasiswa $mahasiswa)
     {
+        $this->ensureAdmin();
         return view('mahasiswa.edit', compact('mahasiswa'));
     }
 
     public function update(Request $request, Mahasiswa $mahasiswa)
     {
+        $this->ensureAdmin();
         $validated = $request->validate([
             'nim' => 'required|string|max:50|unique:mahasiswas,nim,' . $mahasiswa->id,
             'nama' => 'required|string|max:255',
@@ -78,6 +85,7 @@ class MahasiswaController extends Controller
 
     public function destroy(Mahasiswa $mahasiswa)
     {
+        $this->ensureAdmin();
         if ($mahasiswa->gambar) {
             Storage::disk('public')->delete($mahasiswa->gambar);
         }

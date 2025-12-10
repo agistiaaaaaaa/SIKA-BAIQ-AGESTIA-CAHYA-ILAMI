@@ -5,18 +5,18 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AuthController;
 
 // Auth routes
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Protected routes
-Route::middleware('auth')->group(function () {
-    Route::resource('mahasiswa', MahasiswaController::class);
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login', 'showLogin')->name('login');
+    Route::post('/login', 'login')->name('login.post');
+    Route::get('/register', 'showRegister')->name('register');
+    Route::post('/register', 'register')->name('register.post');
+    Route::post('/logout', 'logout')->name('logout');
 });
 
-// Home redirect
+// Mahasiswa resource (protected by auth middleware)
+Route::resource('mahasiswa', MahasiswaController::class)->middleware('auth');
+
+// Home redirect (auth handled by controller middleware)
 Route::get('/', function () {
-    return auth()->check() ? redirect()->route('mahasiswa.index') : redirect()->route('login');
+    return redirect()->route('mahasiswa.index');
 });
