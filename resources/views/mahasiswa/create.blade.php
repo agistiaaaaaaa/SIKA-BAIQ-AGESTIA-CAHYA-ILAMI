@@ -21,6 +21,29 @@
         <label>Gambar
             <input type="file" name="gambar" accept="image/*">
         </label>
+        <hr style="margin:16px 0; border:none; border-top:1px solid #e5e7eb;">
+        <p style="color:#6b7280; margin:0 0 8px;">Akun Mahasiswa (dibuat otomatis). Default email/password diisi dari NIM dan bisa diubah.</p>
+        <label>Email Akun
+            <input type="email" name="user_email" id="user_email" value="{{ old('user_email', old('nim') ? (old('nim').'@sika.local') : '') }}" placeholder="contoh: TI121212@sika.local">
+        </label>
+        <label>Password Akun
+            <input type="text" name="user_password" id="user_password" value="{{ old('user_password') }}" placeholder="default: NIM">
+        </label>
+        <script>
+            (function(){
+                const nim = document.querySelector('input[name=nim]');
+                const email = document.getElementById('user_email');
+                const pass = document.getElementById('user_password');
+                function applyDefaults(){
+                    if(nim && nim.value){
+                        if(!email.value){ email.value = nim.value + '@sika.local'; }
+                        if(!pass.value){ pass.value = nim.value; }
+                    }
+                }
+                nim && nim.addEventListener('input', applyDefaults);
+                document.addEventListener('DOMContentLoaded', applyDefaults);
+            })();
+        </script>
         <div style="display:flex; gap:8px; align-items:center; margin-top:10px;">
             <button class="btn" type="submit">Kirim</button>
             <a href="{{ route('mahasiswa.index') }}" class="btn secondary">Batal</a>

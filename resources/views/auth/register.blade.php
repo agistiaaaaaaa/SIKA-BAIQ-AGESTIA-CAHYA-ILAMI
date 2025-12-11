@@ -8,6 +8,13 @@
                         <form method="POST" action="{{ route('register.post') }}">
                             @csrf
                             <div class="mb-3">
+                                <label for="nim" class="form-label">NIM</label>
+                                <input type="text" class="form-control" id="nim" name="nim" value="{{ old('nim') }}" required>
+                                @error('nim')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label for="name" class="form-label">Nama</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
                                 @error('name')

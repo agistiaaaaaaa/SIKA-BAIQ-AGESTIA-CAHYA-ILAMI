@@ -31,29 +31,7 @@ class AuthController extends Controller
         ])->withInput();
     }
 
-    public function showRegister()
-    {
-        return view('auth.register');
-    }
-
-    public function register(Request $request)
-    {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'min:6', 'confirmed'],
-        ]);
-
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => 'mahasiswa',
-        ]);
-
-        Auth::login($user);
-        return redirect()->route('mahasiswa.index');
-    }
+    // Registration is disabled; admin is responsible for creating accounts.
 
     public function logout(Request $request)
     {
@@ -63,4 +41,3 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 }
-

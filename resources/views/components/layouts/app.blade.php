@@ -8,12 +8,15 @@
     <link href="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.1.4/css/sb-admin-2.min.css" rel="stylesheet" />
     <style>
         :root {
-            --pri: #0f766e; /* teal-700 */
-            --pri-hover: #115e59; /* teal-800 */
+            /* STMIK Lombok Yellow theme (Praya, Lombok Tengah) */
+            --pri: #FFC107; /* aiut yellow */
+            --pri-hover: #E0A800; /* darken yellow */
             --text: #1b1b18;
             --muted: #6b7280;
             --border: #e5e7eb;
-            --bg: #fafafa;
+            --bg: #fffef8; /* subtle warm background */
+            --hero-soft: #FFF3CD; /* soft yellow */
+            --hero-border: #FCE68A;
         }
         * { box-sizing: border-box; }
         body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; color: var(--text); background: var(--bg); }
@@ -22,7 +25,7 @@
         .brand { font-weight: 700; color: var(--pri); }
         .nav a { color: var(--text); text-decoration: none; margin-right: 12px; }
         .container { max-width: 900px; margin: 0 auto; padding: 20px 16px; }
-        .flash { padding: 10px; margin-bottom: 16px; background: #e8ffe8; border: 1px solid #a7e3a7; border-radius: 6px; }
+        .flash { padding: 10px; margin-bottom: 16px; background: var(--hero-soft); border: 1px solid var(--hero-border); border-radius: 6px; }
         label { display: block; font-size: 14px; margin-top: 8px; color: var(--muted); }
         input[type=text], select, textarea, input[type=file] { width: 100%; padding: 10px; font-size: 16px; border: 1px solid var(--border); border-radius: 6px; margin-top: 6px; background: white; }
         textarea { min-height: 100px; }
@@ -37,6 +40,12 @@
         img { max-width: 100%; height: auto; border-radius: 6px; }
         .pagination { display: flex; gap: 8px; margin-top: 14px; }
         .pagination nav { display: inline-flex; gap: 8px; }
+        /* home hero */
+        .hero { background: linear-gradient(90deg, #FFF9DB, #FFE082); border: 1px solid var(--hero-border); padding: 18px; border-radius: 10px; }
+        .hero h2 { margin: 0 0 6px; color: var(--pri-hover); }
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+        .card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+        .card h3 { margin: 0 0 6px; font-size: 16px; color: var(--pri-hover); }
     </style>
 </head>
 <body>
@@ -61,7 +70,7 @@
                 </form>
             @else
                 <a class="btn secondary" href="{{ route('login') }}">Login</a>
-                <a class="btn" style="margin-left:6px;" href="{{ route('register') }}">Register</a>
+                <span style="margin-left:8px; color: var(--muted);">Akun mahasiswa dibuat oleh admin</span>
             @endauth
         </div>
     </div>

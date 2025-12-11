@@ -4,6 +4,7 @@
             <a href="{{ route('mahasiswa.create') }}" class="btn">Tambah Mahasiswa</a>
         @endif
     @endauth
+    <p style="color: var(--muted); margin: 8px 0 0;">Menampilkan 6 data per halaman.</p>
     <table>
         <thead>
             <tr>
@@ -24,7 +25,7 @@
                 <td>{{ $m->alamat }}</td>
                 <td>
                     @if($m->gambar)
-                        <img src="{{ asset('storage/'.$m->gambar) }}" alt="{{ $m->nama }}" width="120">
+                        <img src="{{ asset('storage/'.$m->gambar) }}" alt="{{ $m->nama }}" width="80">
                     @else - @endif
                 </td>
                 <td class="table-actions">
@@ -46,5 +47,17 @@
         @endforelse
         </tbody>
     </table>
-    {{ $mahasiswas->links() }}
+    <div class="pagination">
+        @if($mahasiswas->previousPageUrl())
+            <a href="{{ $mahasiswas->previousPageUrl() }}" class="btn secondary">Prev</a>
+        @else
+            <span class="btn secondary" style="opacity:0.5; pointer-events:none;">Prev</span>
+        @endif
+        <span style="align-self:center; color:var(--muted);">Halaman {{ $mahasiswas->currentPage() }} dari {{ $mahasiswas->lastPage() }}</span>
+        @if($mahasiswas->nextPageUrl())
+            <a href="{{ $mahasiswas->nextPageUrl() }}" class="btn">Next</a>
+        @else
+            <span class="btn" style="opacity:0.5; pointer-events:none;">Next</span>
+        @endif
+    </div>
 </x-layouts.app>

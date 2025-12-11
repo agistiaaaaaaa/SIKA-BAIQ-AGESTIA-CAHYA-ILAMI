@@ -27,7 +27,7 @@
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Login</button>
                         </form>
-                        <p class="mt-3 text-center">Belum punya akun? <a href="{{ route('register') }}">Register</a></p>
+                        <p class="mt-3 text-center text-muted">Akun dibuat oleh admin. Silakan hubungi admin jika belum memiliki akun.</p>
                     </div>
                 </div>
             </div>
