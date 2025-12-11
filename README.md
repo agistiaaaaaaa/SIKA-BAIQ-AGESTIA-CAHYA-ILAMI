@@ -1,59 +1,56 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sika — Sistem Informasi Kemahasiswaan STMIK Lombok
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Project CRUD sederhana buat ngelola data mahasiswa di kampus STMIK Lombok (Praya, Lombok Tengah). Tampilan clean, warna utama kuning kampus, dan akses aman: admin pegang kendali, mahasiswa bisa update datanya sendiri.
 
-## About Laravel
+## Fitur Utama
+- Daftar, detail, tambah, edit, hapus data mahasiswa (admin).
+- Akun mahasiswa otomatis dibuat saat admin menambah data.
+  - Default email: `NIM@sika.local`.
+  - Default password: `NIM` (bisa diubah oleh admin).
+- Mahasiswa bisa mengedit data miliknya sendiri (nama, prodi, alamat, foto) tanpa bisa mengubah NIM atau akun.
+- Pagination 6 data per halaman di daftar admin, ada tombol Prev/Next.
+- Beranda informatif bertema kuning STMIK Lombok.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Teknologi
+- Laravel 10+ (Blade, Eloquent, Auth dasar)
+- Bootstrap (styling ringan)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Setup Cepat (Dev Lokal)
+1. Clone repo dan masuk folder project.
+2. Duplikasi `.env.example` menjadi `.env` lalu isi:
+   - `APP_NAME="Sika STMIK Lombok"`
+   - Biarkan `DB_CONNECTION=sqlite` untuk setup cepat.
+3. Buat file database SQLite: `database/database.sqlite` (file kosong).
+4. Generate key dan jalankan migrasi + seeder:
+   - `php artisan key:generate`
+   - `php artisan migrate --seed`
+5. Jalankan server dev: `php artisan serve`
+6. Akses: `http://127.0.0.1:8000/`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Opsi: MySQL/MariaDB
+Kalau mau pakai MySQL:
+- Ubah `.env` ke `DB_CONNECTION=mysql` dan sesuaikan `DB_HOST`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`.
+- Bisa pakai helper `create_db.php` atau `setup_sika.sql` untuk menyiapkan database dan user.
+- Setelah itu jalankan `php artisan migrate --seed`.
 
-## Learning Laravel
+## Akun Bawaan
+- Admin: email `admin@sika.local`, password `admin123`.
+- Mahasiswa: dibuat otomatis saat admin tambah data (email & password default dari NIM).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Alur Penggunaan
+- Admin login → kelola data mahasiswa (tambah, edit, hapus). Saat tambah data, isi NIM dan identitas; email/password akun bisa auto dari NIM atau diubah.
+- Mahasiswa login → diarahkan melihat data miliknya; tombol Edit muncul untuk memperbarui nama/prodi/alamat/foto.
+- Halaman daftar admin: 6 item per halaman, tombol Prev/Next untuk navigasi.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Struktur Penting
+- `app/Http/Controllers/MahasiswaController.php`: logika CRUD + sinkron akun user.
+- `resources/views/mahasiswa/*`: tampilan daftar/detail/create/edit.
+- `resources/views/home.blade.php`: Beranda kampus.
+- `database/seeders/*`: admin dan data mahasiswa contoh.
 
-## Laravel Sponsors
+## Catatan
+- Registrasi lewat form publik dimatikan; akun mahasiswa dibuat oleh admin.
+- Password mahasiswa default = NIM, tapi sebaiknya diganti oleh admin.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Lisensi
+Proyek ini memakai basis Laravel (MIT). Konten aplikasi Sika bebas dipakai untuk pembelajaran dan pengembangan internal kampus.
